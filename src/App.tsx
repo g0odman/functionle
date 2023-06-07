@@ -3,20 +3,30 @@ import Settings from './components/Settings';
 import Info from './components/Info';
 import Game from './components/Game';
 import EndGame from './components/EndGame';
+import Header from './components/Header';
 
+enum Screen {
+    Settings = 'settings',
+    Info = 'info',
+    Game = 'game',
+    EndGame = 'endgame',
+}
 const App = () => {
-    const [currentScreen, setCurrentScreen] = useState('settings');
-
+    const [currentScreen, setCurrentScreen] = useState<Screen>(Screen.Info);
+    const endGame = () => { setCurrentScreen(Screen.EndGame) };
+    const showGame = () => { setCurrentScreen(Screen.Game) };
+    const openSettings = () => { setCurrentScreen(Screen.Settings) };
+    const openInfo = () => { setCurrentScreen(Screen.Info) };
     const renderScreen = () => {
         switch (currentScreen) {
-            case 'settings':
-                return <Settings />;
-            case 'info':
-                return <Info />;
-            case 'game':
-                return <Game />;
-            case 'endgame':
-                return <EndGame />;
+            case Screen.Settings:
+                return <Settings closeSettings={showGame} />;
+            case Screen.Info:
+                return <Info closeInfo={showGame} />;
+            case Screen.Game:
+                return <Game endGame={endGame} />;
+            case Screen.EndGame:
+                return <EndGame playAgain={showGame} />;
             default:
                 return null;
         }
@@ -24,13 +34,7 @@ const App = () => {
 
     return (
         <div>
-            <h1>My App</h1>
-            <nav>
-                <button onClick={() => setCurrentScreen('settings')}>Settings</button>
-                <button onClick={() => setCurrentScreen('info')}>Info</button>
-                <button onClick={() => setCurrentScreen('game')}>Game</button>
-                <button onClick={() => setCurrentScreen('endgame')}>End Game</button>
-            </nav>
+            <Header openSettings={openSettings} openInfo={openInfo} />
             {renderScreen()}
         </div>
     );

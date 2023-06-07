@@ -1,10 +1,11 @@
+import Button from "@mui/material/Button/Button";
 
 // EndGame component
-const EndGame = () => {
+const EndGame = (props: { playAgain: () => void }) => {
     return (
         <div>
             <h1>End Game</h1>
-            {/* End Game content */}
+            <Button onClick={props.playAgain}>Play Again</Button>
         </div>
     );
 };
